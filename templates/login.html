@@ -1,0 +1,124 @@
+{% from "showlinks.html" import showlinks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static' , filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+         @import "https://use.fontawesome.com/releases/v5.5.0/css/all.css";
+      
+      .login-box{
+          width: 280px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%,-50%);
+          color: white;
+      }
+      .login-box h1{
+          float: left;
+          font-size: 40px;
+          border-bottom: 6px solid #4caf50;
+          margin-bottom: 50px;
+          padding: 13px 0;
+      }
+      .textbox{
+          width: 100%;
+          overflow: hidden;
+          font-size: 20px;
+          padding: 8px 0;
+          margin: 8px 0;
+          border-bottom: 1px solid #4caf50;
+      }
+      .textbox i{
+          width: 26px;
+          float: left;
+          text-align: center;
+      }
+      .textbox input{
+          border: none;
+          outline: none;
+          background: none;
+          color: rgb(37, 128, 120);
+          font-size: 18px;
+          width: 80%;
+          float: left;
+          margin: 0 10px;
+      }
+      .btn{
+            width: 50%;
+            background: rgb(207, 53, 25);
+            border: 1px solid #4caf50;
+            color: white;
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 12px 0;
+            border-radius: 30px;
+            
+        }
+        .btn:hover{
+            background: rgb(76, 199, 51);
+        }
+
+      .parent{
+          display:grid;
+          grid-template-columns: 1fr 4fr 1fr;
+          grid-template-rows: 40px 710px;
+          background-color: white;
+      }
+
+      .child--1{
+          grid-column: 1/-1;
+          grid-row: 1/2;
+      }
+
+      .child--2{
+          grid-column: 1/-1;
+          grid-row: 2/3;
+          margin: 0;
+          padding: 0;
+          font-family: sans-serif;
+          background: url('static/bg2.jpg') no-repeat;
+          background-size: cover;
+      }
+
+      .child--2 h1{
+          text-align:center;
+      }
+
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="child child--1">
+            {{ showlinks(user) }}
+        </div>
+        <div class="child child--2">
+            <form action="/login" method="POST">
+                <div class="login-box">
+                    <h1 style="color: rgb(37, 128, 120);;">Login</h1>
+                    <div class="textbox">
+                      <i class="fas fa-user"></i>
+                      <input type="text" placeholder="Username" name = "username" required>
+                    </div>
+                  
+                    <div class="textbox">
+                      <i class="fas fa-lock"></i>
+                      <input type="password" placeholder="Password" name = "password" required>
+                    </div>
+                  
+                    <button type="submit" class = "btn btn-warning">Login</button>
+                  </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+{% from "showlinks.html" import showlinks %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
+    <title>View One hotel</title>
+    <style>
+        html, body{
+          height: 100%; 
+          margin: 0 ; 
+          padding: 0;
+        } 
+        .parent{ 
+          display: grid;
+          height: 100%;   
+          grid-template-columns: 1fr; 
+          grid-template-rows: 10% 90%;  
+          overflow: hidden;
+        }
+        .child2{
+          
+          display: flex;
+          justify-content: space-around;
+        }
+        .left{
+          width: 15%;
+          
+        }
+        .leftfix{
+          position: fixed;
+          height: 90%;
+          overflow-y: auto;
+        }
+        .center{
+          width: 60%;
+          
+        }
+
+        .review{
+            height: 80%;
+            overflow-y: auto;
+        }
+        .right{
+          width: 20%;
+        }
+        .right{
+          position: relative;
+          background-color: white; 
+          border-radius: 2%;
+          
+        }
+        .rightfix{
+          position: fixed;
+          top: 20%;
+          background-color: white; 
+          border-radius: 2%;
+          display: grid;
+          grid-template-columns: 1fr;
+          grid-template-rows: 250px 400px;
+        }
+
+        .percentagebody{
+          grid-row: 1/2;
+          grid-column: 1/-1;
+        }
+
+        .percentagedetails{
+          grid-row: 2/3;
+          grid-column: 1/-1;
+        }
+
+        .percentage1{
+          position: absolute;
+          height: 180px;
+          width: 180px;
+          top: 20%;
+          left: 50%;
+          border-radius: 50%;
+          background-color: rgb(0, 59, 72);
+          transform: translate(-50%,-50%);
+        }
+
+        .percentage3{
+          position: absolute;
+          height: 160px;
+          width: 160px;
+          top: 20%;
+          left: 50%;
+          border-radius: 50%;
+          background-color: white;
+          transform: translate(-50%,-50%);
+        }
+
+        .performance{
+          position: absolute;
+          color: black;
+          font-size: 50px;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%,-50%);
+        }
+        .button{
+            width: 80px;
+            background-color: rgb(128, 221, 40);
+            
+        }
+    </style>
+  </head>
+  <body>
+      <div class="parent">
+          <div class="child child1">
+            {{ showlinks(user) }}
+          </div>
+          <div class="child child2">
+            <div class="left">
+                <div class="leftfix">
+                    <div class="dropdownbutton">
+                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                              <div class="accordion-button collapsed" >
+                                <b><h5>Restaurants</h5></b>
+                                <hr>
+                                
+                              </div>
+                            </h2>
+                            <div >
+                              <div>
+                                  <ul class="list-group list-group-flush " >
+                                    {% for hotel in allhotels %}
+                                        {% if user['admin'] == hotel['hotelid'] %}
+                                            <a style="text-decoration: none;" class="dropdown-item" href="{{ url_for('verifyreview', hotelid = hotel['hotelid'] )}}">{{hotel['hotelname']}}</a>
+                                            <hr class="dropdown-divider">
+                                        {% endif %}
+                                    {% endfor %}
+                                    </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+              
+              
+            </div>
+            <div class="center">
+                <h1 style="color: black;">{{single_hotel['hotelname']}}</h1>
+                <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <a class="nav-link"  href="{{ url_for('viewonehotel', name = single_hotel['image_name'] )}}">Hotel Details</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('viewreview', hotelid = single_hotel['hotelid'] )}}">reviews</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('verifyreview', hotelid = single_hotel['hotelid'] )}}">verify reviews</a>
+                  </li>
+                </ul>
+                <hr>
+                <div class="review">
+                    {% for review in allreviews %}
+                        <div class="card">
+                            <div class="card-body">
+                            <h5 class="card-title">{{ review['username'] }}
+                                {% if review['verified'] == 1 %}
+                                    &#x2705;
+                                {% endif %}
+                            </h5>
+                            {% if review['rating'] == 5 %}
+                            <div class="card-subtitle mb-2">
+                                <span style="font-size:140%;color:yellow;">&starf;&starf;&starf;&starf;&starf;</span>
+                            </div>
+                            {% elif review['rating'] == 4 %}
+                            <div class="card-subtitle mb-2">
+                                <span style="font-size:140%;color:yellow;">&starf;&starf;&starf;&starf;</span>
+                                <span style="font-size:140%;color:rgb(148, 147, 147);">&starf;</span>
+                            </div>
+                            {% elif review['rating'] == 3 %}
+                            <div class="card-subtitle mb-2">
+                                <span style="font-size:140%;color:yellow;">&starf;&starf;&starf;</span>
+                                <span style="font-size:140%;color:rgb(148, 147, 147);">&starf;&starf;</span>
+                            </div>
+                            {% elif review['rating'] == 2 %}
+                            <div class="card-subtitle mb-2">
+                                <span style="font-size:140%;color:yellow;">&starf;&starf;</span>
+                                <span style="font-size:140%;color:rgb(148, 147, 147);">&starf;&starf;&starf;</span>
+                            </div>
+                            {% elif review['rating'] == 1 %}
+                            <div class="card-subtitle mb-2">
+                                <span style="font-size:140%;color:yellow;">&starf;</span>
+                                <span style="font-size:140%;color:rgb(148, 147, 147);">&starf;&starf;&starf;&starf;</span>
+                            </div>
+                            {% endif %}
+                            <p class="card-text">{{ review['review'] }}</p>
+                            </div>
+                            
+                        </div>
+                        
+                        <a class="nav-link btn button"  href="{{ url_for('updatereview', userid = review['userid'] )}}">verify</a>
+                        <br>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="right">
+              <div class="rightfix">
+                {% if all_count['real_count'] == 0%}
+                  
+                {% else %}
+                  <div class="percentagebody">
+                    <div class="percentagebody">
+                      <h5 style="text-align: center;color: black; padding: 5%;">Authenticity</h5>
+                      <div class="percentage1"></div>
+                      <div class="percentage2"></div>
+                      <div class="percentage3">
+                        <h1 class = "performance">{{ auth  }}%</h1>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+                 {% if all_count['real_count']%}
+                 <div class="percentagedetails">
+                   
+                  <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Total real Reviews</div>
+                      </div>
+                      <span class="badge bg-success text-light rounded-pill">{{ all_count['real_count'] }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Total Fake Reviews</div>
+                      </div>
+                      <span class="badge bg-danger text-light rounded-pill">{{ all_count['all_count']-all_count['real_count'] }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Total Reviews</div>
+                      </div>
+                      <span class="badge bg-warning text-light rounded-pill">{{ all_count['all_count'] }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Verifiewd Reviews</div>
+                      </div>
+                      <span class="badge bg-info text-light rounded-pill">{{ all_count['verify_count'] }}</span>
+                    </li>
+                    <br>
+                    <h5 class="text-center"><a class="btn btn-danger" href="{{single_hotel['weblink']}}"> website</a></h5>
+                  </ul>
+                  
+                </div>
+                 {% endif %}
+                 
+              </div>
+                 
+            </div>
+            
+          </div>
+      </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+
+  </body>
+</html>
